@@ -35,13 +35,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    {% if session.username != 'admin' %}
-                    <a class='nav-link' href="/NewStudent">New Entry</a>
-                    {% endif %}
                     <a class='nav-link active' href="#">Home</a>
-                    <a class='nav-link' href="/schedule">Schedule</a>
-                    <a class='nav-link' href="/Stats">Statistics</a>
+                    {% if session.username == 'admin' %}
+                    <a class='nav-link' href="/NewStudent">New Entry</a>
                     <a class='nav-link' href="/Settings">Settings</a>
+                    <a class='nav-link' href="/schedule">Schedule</a>
+                    {% endif %}
+                    <a class='nav-link' href="/Stats">Statistics</a>
                     <a class='nav-link' href="/About">About</a>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">

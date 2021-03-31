@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% block head %}
+
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    rel="stylesheet">
+
+<!-- Main CSS-->
+<link href="static/css/main.css" rel="stylesheet" media="all">
+<style>
+
+    td {
+        padding: 5px;
+    }
+</style>
+
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+
+
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+        <div class="wrapper wrapper--w900">
+            <div class="card card-6">
+                <div class="card-heading">
+                    <h2 class="title">Set Schedule</h2>
+                </div>
+                <div class="card-body">
+                    <form action="admin/scheduling" method="post">
+                        <div class="form-row">
+                            <div class="name">Number of periods</div>
+                            <div class="value">
+                                <select class="form-select" name="noper" id="txt">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6" selected>6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row">
+                            <input class="btn btn-dark" type="button" value="Set timings" id="btn" />
+                            <br><br>
+                            <div id="AddControll" class="mt-5">
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button class="btn btn--radius-2 btn--blue-2" type="submit">Create Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/generate.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block head %}
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+<center>
+    <title>Settings</title>
+    <form action="/clearAtt" method=POST>
+        <h2>Reset Attendance</h2>
+        <div>
+            <label for="btn">Delete Attendance data </label>
+            <input type="submit" value="Delete Now" id="btn" />
+    </form>
+    </div>
+</center><br><br>
+
+<form action="/removeStud" method=POST>
+    <center>
+        <h2>Remove student</h2>
+        <label for="enum">Enrollment Number:</label>
+        <div>
+            <input type="text" name="enum">
+        </div><br>
+        <input type="submit" Value="Remove">
+</form>
+
+<br>
+
+<form action='/updatePswd' method=POST>
+    <h2>Update Password</h2>
+    <label for="enroll">Enrollment Number</label>
+    <div>
+        <input type="text" name='enroll' id='enroll'>
+    </div><br>
+    <label for="password">New Password</label>
+    <div>
+        <input type="text" name='password' id='password'>
+    </div><br>
+    <input type="submit" Value="submit now">
+</form>
+</center>
+
+{% endblock %}

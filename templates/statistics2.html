@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block head %}
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+<center>
+    <div>
+        <title>Statictics</title>
+
+
+        <div>
+            Studant Name : {{sname}}
+        </div><br>
+        <div>
+            Enrollment Number : {{eno}}
+        </div><br>
+        <div>
+            Attandance Percentage : {{per}}%
+        </div><br>
+        <div>
+
+
+            <form action="/Stats3/{{eno}}", method=POST>
+                <label for="sdate">Select Date </label>
+                <div>
+                    <input type="date" name="date">
+                </div><br>
+                <div>
+                    <input type="submit" value="Go" id="btn" />
+                </div>
+            </form>
+        </div>
+</center>
+
+{% endblock %}

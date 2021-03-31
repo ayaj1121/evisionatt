@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+{% include 'alert.html'%}
+<!-- 
+<header> 
+        <nav class="navbar">
+            <ul class="list">
+                <li><a href="/NewStudent">New Entry</a> </li>
+                <li><a href="/schedule">Schedule</a></li>
+                <li><a href="/Stats">Statistics</a></li>
+                <li><a href="/Settings">Settings</a></li>
+                <li><a href="/About">About</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>  -->
+<header>
+    <nav class="navbar rounded m-2 navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid ">
+            <!-- <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/images/logo.png" width="100" height="30" alt="">
+                </a>
+            </nav> -->
+            <h2>
+                <a class="font-weight-bolder navbar-brand" href="#">Evision</a>
+            </h2>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    {% if session.username != 'admin' %}
+                    <a class='nav-link' href="/NewStudent">New Entry</a>
+                    {% endif %}
+                    <a class='nav-link active' href="#">Home</a>
+                    <a class='nav-link' href="/schedule">Schedule</a>
+                    <a class='nav-link' href="/Stats">Statistics</a>
+                    <a class='nav-link' href="/Settings">Settings</a>
+                    <a class='nav-link' href="/About">About</a>
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class='nav-link justify-content-end' href="/logout">Logout</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Welcome <span
+                    style="font-weight: bolder;font-style: italic;">{{ session.username }}</span></h1>
+            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator,
+                etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+
+
+{% extends 'layout.html' %}
+{% block head %}
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    rel="stylesheet">
+
+<!-- Main CSS-->
+<link href="static/css/main.css" rel="stylesheet" media="all">
+
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+
+
+
+<div class="page-wrapper bg-dark p-t-100 p-b-50">
+    <div class="wrapper wrapper--w900">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">Statistics</h2>
+            </div>
+            <div class="card-body">
+                <form action="/Stats" , method=POST>
+                    <div class="form-row">
+                        <div class="name">Enrollment No.</div>
+                        <div class="value">
+                            <input class="input--style-6" type='text' name="enum" placeholder="17005010...">
+                        </div>
+                    </div>
+           
+                    <div class="card-footer">
+                        <button class="btn btn--radius-2 btn--blue-2" type="submit">Get Stats</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+
+
+<!-- Main JS-->
+<script src="static/js/global.js"></script>
+
+{% endblock %}

@@ -1,15 +1,14 @@
-from re import error
 from flask import Flask, render_template, request, redirect, url_for, abort
-import os
-from flask.globals import session 
 from werkzeug.utils import secure_filename
+from flask.globals import session 
 from flask.helpers import flash
 from flask_mysqldb import MySQL
-import imghdr
+from datetime import timedelta
 from functools import wraps
 import itertools
-from flask_login import current_user
-from datetime import timedelta
+import imghdr
+import os
+
 
 app = Flask(__name__, static_url_path='/static')
 app = Flask(__name__,template_folder='./templates',static_folder='./static')
@@ -18,7 +17,7 @@ app = Flask(__name__,template_folder='./templates',static_folder='./static')
 app = Flask(__name__)
 app.secret_key = "super secret key"
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+stats_stud=()
 
 
 # SQL configuration
@@ -82,7 +81,7 @@ def login():
                 session['Logged_In']=True
                 message="Successfully LoggedIn!"
                 success=True
-                return redirect(f"/Statistics/{usr}", code=307)
+                return redirect(f"/Home", code=307)
                 # return render_template('statistics2.html',eno=usr,message=message,success=success)   
             else:
                 message="Invalid Password!"
@@ -134,13 +133,12 @@ def index():
         if 'admin' in session:
             return render_template('home.html')
         else:
-            return redirect(f"/logout", code=302)
+            return redirect(f"/Home", code=302)
     return render_template('login.html')
 
 # ---------------------------------------------------------Home
 @app.route('/Home', methods =['GET', 'POST'])
 @login_required
-@admin_required
 def home():
 
     # If it is POST request the redirect
@@ -189,98 +187,140 @@ def NewStudentEntry():
         return redirect("/NewStudent", code=302)
 
 
-# ---------------------------------------------------------Statistics
+
+
+
+# ---------------------------------------------------------Statistics(student)
+@app.route('/Statistics',methods=['GET','POST'])
+@login_required
+def Statistics(): 
+
+    eno=session['username']
+    print(eno)
+    if eno=='admin':
+        return render_template('Statistics.html')
+    #--------------fetching sname for selected eno for display purpose-------------------
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT sname from maintable where eno=%s"
+    mycursor.execute(sql,(eno,))
+    sname_tuple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    if sname_tuple == None:
+        flash("No such user exists")
+        return redirect("/Stats", code=302)
+    sname_str=sname_tuple[0]
+    #-----------------for counting att percentage----------------------------- 
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT sum(np) from total"
+    mycursor.execute(sql)
+    totalp_tupple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    totalp_int=int(totalp_tupple[0])
+
+    if totalp_int==0:
+        return "No class have been taken"
+
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT count(pno) from att where eno=%s"
+    mycursor.execute(sql,eno)
+    attp_tupple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    attp_int=int(attp_tupple[0])
+
+    percentage=round((attp_int*100)/totalp_int,2)
+    return render_template('Statistics2.html',eno=eno,sname=sname_str,per=percentage)
+
+
+
+# ---------------------------------------------------------Statistics(admin)
 @app.route('/Stats',methods=['GET','POST'])
 @login_required
 @admin_required
-def Stats():    
-    if request.method == 'GET':
-        return render_template('Statistics.html')
-    if request.method == 'POST':
-        eno = request.form['enum']
-        return redirect(f"/Statistics/{eno}",code=307)
+def Stats():
+    eno = request.form['enum']
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT sname from maintable where eno=%s"
+    mycursor.execute(sql,(eno,))
+    sname_tuple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    if sname_tuple == None:
+        flash("No such user exists")
+        return redirect("/Statistics", code=302)
+    sname_str=sname_tuple[0]
+    #-----------------for counting att percentage----------------------------- 
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT sum(np) from total"
+    mycursor.execute(sql)
+    totalp_tupple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    totalp_int=int(totalp_tupple[0])
+
+    if totalp_int==0:
+        return "No class have been taken"
+
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT count(pno) from att where eno=%s"
+    mycursor.execute(sql,eno)
+    attp_tupple = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    attp_int=int(attp_tupple[0])
+
+    percentage=round((attp_int*100)/totalp_int,2)
+    global stats_stud
+    stats_stud=(eno,sname_str,percentage)
+    # return render_template('Statistics2.html',eno=eno,sname=sname_str,per=percentage)
+    return redirect('/stats')
+
+@app.route('/stats',methods=['GET','POST'])
+@login_required
+@admin_required
+def st(): 
+    return render_template('Statistics2.html',eno=stats_stud[0],sname=stats_stud[1],per=stats_stud[2])
           
 
-@app.route('/Statistics/<eno>',methods=['GET','POST'])
+@app.route('/StatsDaily',methods=['GET','POST'])
 @login_required
-def Statistics(eno): 
-    if request.method == "GET":
-        return redirect(url_for('index'))
-    if request.method == "POST":
-        print(eno)
-        # eno = request.form['enum']
-        #--------------fetching sname for selected eno for display purpose-------------------
-        mycursor =mysql.connection.cursor()
-        sql = "SELECT sname from maintable where eno=%s"
-        mycursor.execute(sql,(eno,))
-        sname_tuple = mycursor.fetchone()
-        mysql.connection.commit()
-        mycursor.close()
-        if sname_tuple == None:
-            flash("No such user exists")
-            return redirect("/Stats", code=302)
-        sname_str=sname_tuple[0]
-        #-----------------for counting att percentage----------------------------- 
-        mycursor =mysql.connection.cursor()
-        sql = "SELECT sum(np) from total"
-        mycursor.execute(sql)
-        totalp_tupple = mycursor.fetchone()
-        mysql.connection.commit()
-        mycursor.close()
-        totalp_int=int(totalp_tupple[0])
-
-        if totalp_int==0:
-            return "No class have been taken"
-
-        mycursor =mysql.connection.cursor()
-        sql = "SELECT count(pno) from att where eno=%s"
-        mycursor.execute(sql,eno)
-        attp_tupple = mycursor.fetchone()
-        mysql.connection.commit()
-        mycursor.close()
-        attp_int=int(attp_tupple[0])
-
-        percentage=(attp_int*100)/totalp_int
-        return render_template('Statistics2.html',eno=eno,sname=sname_str,per=percentage)
-
-@app.route('/Stats3/<eno>',methods=['GET','POST'])
-@login_required
-def Statistics3(eno):
-    if request.method == "GET":
-        return redirect(url_for('index'))
+def Statistics3():
+    eno=session['username']
+    dt= request.form['date']
+    if eno=='admin':
+        eno=stats_stud[0]
+    # eno = request.form['eno']
     
-    if request.method == "POST":
-        # eno = request.form['eno']
-        dt= request.form['date']
-        mycursor =mysql.connection.cursor()
-        sql = "SELECT (pno) from att where eno=%s and dt=%s"
-        mycursor.execute(sql,(eno,dt,))
-        pr_tuple = mycursor.fetchall()
-        out = list(itertools.chain(*pr_tuple))
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT (pno) from att where eno=%s and dt=%s"
+    mycursor.execute(sql,(eno,dt,))
+    pr_tuple = mycursor.fetchall()
+    out = list(itertools.chain(*pr_tuple))
 
-        if(out==None):
-            return "No class attended on {dt}"
+    if(out==None):
+        return "No class attended on {dt}"
 
-        mysql.connection.commit()
-        mycursor.close()
+    mysql.connection.commit()
+    mycursor.close()
 
-        mycursor =mysql.connection.cursor()
-        sql = "SELECT (np) from total where dt=%s"
-        mycursor.execute(sql,(dt,))
-        t_np = mycursor.fetchone()
-        mysql.connection.commit()
-        mycursor.close()
-        if(t_np == None):
-            return f"There were no class on {dt}"
-        t_np=t_np[0]
+    mycursor =mysql.connection.cursor()
+    sql = "SELECT (np) from total where dt=%s"
+    mycursor.execute(sql,(dt,))
+    t_np = mycursor.fetchone()
+    mysql.connection.commit()
+    mycursor.close()
+    if(t_np == None):
+        return f"There were no class on {dt}"
+    t_np=t_np[0]
 
 
-        return f"{out} out of total {t_np}"   
+    return f"{out} out of total {t_np}"   
 
 # ---------------------------------------------------------About
 @app.route('/About',methods=['GET'])
 @login_required
-@admin_required
 def About():
     return render_template('About.html')
 

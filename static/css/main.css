@@ -437,12 +437,11 @@ input[type="date" i] {
 
 .daterangepicker {
   border: none;
-  -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-  display: none;
+  /* -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15); */
+  /* -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15); */
+  /* box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15); */
   border: 1px solid #e0e0e0;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 }
 
 .daterangepicker::after, .daterangepicker::before {

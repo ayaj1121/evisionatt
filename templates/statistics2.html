@@ -1,3 +1,4 @@
+{#
 {% extends 'layout.html' %}
 {% block head %}
 {% endblock %}
@@ -21,7 +22,7 @@
         <div>
 
 
-            <form action="/Stats3/{{eno}}", method=POST>
+            <form action="/StatsDaily" , method=POST>
                 <label for="sdate">Select Date </label>
                 <div>
                     <input type="date" name="date">
@@ -32,5 +33,93 @@
             </form>
         </div>
 </center>
+
+{% endblock %}
+ #}
+
+
+{% extends 'layout.html' %}
+{% block head %}
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    rel="stylesheet">
+
+<!-- Main CSS-->
+<link href="static/css/main.css" rel="stylesheet" media="all">
+
+<style>
+    .form-row .name {
+        font-size: 20px;
+    }
+
+   
+</style>
+
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+
+
+<div class="page-wrapper bg-dark p-t-100 p-b-50">
+    <div class="wrapper wrapper--w900">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">Statistics</h2>
+            </div>
+            <div class="card-body">
+                <!-- <form action="/Stats" , method=POST> -->
+                <form action="/StatsDaily" , method=POST>
+                    <div class="form-row">
+                        <div class="name">Enrollment No. </div>
+                        <div class="value">
+                            <div class="name">
+                                {{eno}}
+                            </div><br>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="name">Studant Name </div>
+                        <div class="value">
+                            <div class="name">
+                                {{sname}}
+                            </div><br>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="name">Attandance Percentage </div>
+                        <div class="value">
+                            <div class="name">
+                                {{per}}%
+                            </div><br>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-row">
+                        <div class="name" style="margin-top:20px;">Select Date</div>
+                        <div class="value">
+                            <div class="name">
+                                <input class="daterangepicker" type="date" name="date">
+                            </div><br>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn--radius-2 btn--blue-2" type="submit">Get Stats</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+
+
+<!-- Main JS-->
+<script src="static/js/global.js"></script>
 
 {% endblock %}

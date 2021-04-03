@@ -1,3 +1,4 @@
+{#
 {% extends 'layout.html' %}
 {% block head %}
 {% endblock %}
@@ -40,5 +41,108 @@
     <input type="submit" Value="submit now">
 </form>
 </center>
+
+{% endblock %}
+
+#}
+
+{% extends 'layout.html' %}
+{% block head %}
+<!-- Font special for pages-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    rel="stylesheet">
+
+<!-- Main CSS-->
+<link href="static/css/main.css" rel="stylesheet" media="all">
+
+
+<style>
+    .form-row .name {
+        font-size: 20px;
+    }
+</style>
+
+
+{% endblock %}
+{% block content %}
+{% include 'alert.html'%}
+
+
+
+
+<div class="page-wrapper bg-dark p-t-100 p-b-50">
+    <div class="wrapper wrapper--w900 p-b-50">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">Reset Attendance</h2>
+            </div>
+            <div class="card-body">
+                <form action="/clearAtt" method=POST>
+                    <div class="form-row">
+                        <div class="name" style="width:max-content; margin-right:10px;">Delete Attendance data </div>
+                        <div class="value">
+                            <div  style="font-style: italic;color: red;" >*Beaware that it would delete all data</div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn--radius-2 btn--blue-2" type="submit">Delete</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="wrapper wrapper--w900 p-b-50">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">New Student Entry</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/NewStudent" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="name">Enrollment</div>
+                        <div class="value">
+                            <input class="input--style-6" type='text' name="enum" placeholder="17005010...">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn--radius-2 btn--blue-2" type="submit">Delete</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="wrapper wrapper--w900 p-b-50">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">New Student Entry</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/NewStudent" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="name">Enrollment</div>
+                        <div class="value">
+                            <input class="input--style-6" type='text' name="enum" placeholder="17005010...">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn--radius-2 btn--blue-2" type="submit">Create Entry</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+
+
+<!-- Main JS-->
+<script src="static/js/global.js"></script>
 
 {% endblock %}

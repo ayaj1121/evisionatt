@@ -1,43 +1,3 @@
-{#
-{% extends 'layout.html' %}
-{% block head %}
-{% endblock %}
-{% block content %}
-{% include 'alert.html'%}
-
-<center>
-    <div>
-        <title>Statictics</title>
-
-
-        <div>
-            Studant Name : {{sname}}
-        </div><br>
-        <div>
-            Enrollment Number : {{eno}}
-        </div><br>
-        <div>
-            Attandance Percentage : {{per}}%
-        </div><br>
-        <div>
-
-
-            <form action="/StatsDaily" , method=POST>
-                <label for="sdate">Select Date </label>
-                <div>
-                    <input type="date" name="date">
-                </div><br>
-                <div>
-                    <input type="submit" value="Go" id="btn" />
-                </div>
-            </form>
-        </div>
-</center>
-
-{% endblock %}
- #}
-
-
 {% extends 'layout.html' %}
 {% block head %}
 <!-- Font special for pages-->
@@ -68,7 +28,7 @@
                 <h2 class="title">Statistics</h2>
             </div>
             <div class="card-body">
-                <!-- <form action="/Stats" , method=POST> -->
+                
                 <form action="/StatsDaily" , method=POST>
                     <div class="form-row">
                         <div class="name">Enrollment No. </div>

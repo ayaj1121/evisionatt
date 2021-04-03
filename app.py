@@ -312,11 +312,12 @@ def Statistics3():
     mysql.connection.commit()
     mycursor.close()
     if(t_np == None):
-        return f"There were no class on {dt}"
+        return render_template('statsdaily.html',dt=dt)
+        # return f"There were no class on {dt}"
+    print(type(out))
     t_np=t_np[0]
+    return render_template('statsdaily.html',t_np=t_np,out=out)
 
-
-    return f"{out} out of total {t_np}"   
 
 # ---------------------------------------------------------About
 @app.route('/About',methods=['GET'])

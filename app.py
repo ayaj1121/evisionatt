@@ -287,10 +287,14 @@ def st():
 @app.route('/StatsDaily',methods=['GET','POST'])
 @login_required
 def Statistics3():
+    # if session['username'] == 'admin':
+    #     pass
+    # else:
     eno=session['username']
     dt= request.form['date']
     if eno=='admin':
         eno=stats_stud[0]
+        print(eno)
     # eno = request.form['eno']
     
     mycursor =mysql.connection.cursor()
@@ -316,7 +320,7 @@ def Statistics3():
         # return f"There were no class on {dt}"
     print(type(out))
     t_np=t_np[0]
-    return render_template('statsdaily.html',t_np=t_np,out=out)
+    return render_template('statsdaily.html',t_np=t_np,out=out,eno=eno)
 
 
 # ---------------------------------------------------------About
